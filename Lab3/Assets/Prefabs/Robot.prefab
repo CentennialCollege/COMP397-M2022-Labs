@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9068104318261502182}
   - component: {fileID: 9068104318261502183}
   - component: {fileID: 75397270804570552}
+  - component: {fileID: 1288390516382535817}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -62,7 +63,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -70,6 +71,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1288390516382535817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9068104318261502184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62eded27a0b3a24b9e835b0267fa6b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1001 &9068104318824682507
 PrefabInstance:
   m_ObjectHideFlags: 0
