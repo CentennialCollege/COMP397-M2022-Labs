@@ -12,8 +12,12 @@ public class MapGenerator : MonoBehaviour
     public int depth;
     public List<GameObject> tilesPrefabs;
     public Transform tilesParent;
+    public Transform robotParent;
+    public Transform hazardParent;
+    public Transform coinParent;
     public List<GameObject> randomTiles;
     public GameObject startTile;
+    public GameObject goalTile;
 
     private int startingWidth;
     private int startingDepth;
@@ -26,11 +30,6 @@ public class MapGenerator : MonoBehaviour
 
         BuildMap();
         BuildNavigationMesh();
-
-        //foreach (var robot in robots)
-        //{
-        //    robot.SetActive(true);
-        //}
     }
 
     
@@ -50,6 +49,11 @@ public class MapGenerator : MonoBehaviour
 
     private void BuildMap()
     {
+        // randomly choose the goal tile location
+        var randomGoalCol = Random.Range(0, width);
+        GameObject generatedTile = null;
+
+
         for (var row = 0; row < depth; row++)
         {
             for (var col = 0; col < width; col++)
@@ -58,10 +62,19 @@ public class MapGenerator : MonoBehaviour
                 {
                     continue;
                 }
-                var randomTilePrefab = tilesPrefabs[Random.Range(0, tilesPrefabs.Count)];
+
+                if (row == depth - 1 && col == randomGoalCol)
+                {
+                    generatedTile = goalTile;
+                }
+                else
+                {
+                    generatedTile = tilesPrefabs[Random.Range(0, tilesPrefabs.Count)];
+                }
+                
                 var tilePosition = new Vector3(col * 16.0f, 0.0f, row * 16.0f);
                 var tileRotation = Quaternion.Euler(0.0f, Random.Range(0, 4) * 90.0f, 0.0f);
-                var randomTile = Instantiate(randomTilePrefab, tilePosition, tileRotation);
+                var randomTile = Instantiate(generatedTile, tilePosition, tileRotation);
                 randomTile.transform.SetParent(tilesParent);
                 randomTiles.Add(randomTile);
             }
@@ -91,5 +104,24 @@ public class MapGenerator : MonoBehaviour
             Destroy(tileToDestroy);
         }
         randomTiles.Clear();
+
+
+        // remove robots
+        foreach (Transform child in robotParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // remove hazards
+        foreach (Transform child in hazardParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // remove coins
+        foreach (Transform child in coinParent)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
