@@ -13,16 +13,35 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            mouseSensitivity = 2.0f;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            mouseSensitivity = 7.0f;
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //float x = Input.GetAxis("Mouse X") * mouseSensitivity;
-        //float y = Input.GetAxis("Mouse Y") * mouseSensitivity;
-        float x = rightJoystick.Horizontal * mouseSensitivity;
-        float y = rightJoystick.Vertical * mouseSensitivity;
+        float x;
+        float y;
+
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            x = rightJoystick.Horizontal * mouseSensitivity;
+            y = rightJoystick.Vertical * mouseSensitivity;
+        }
+        else
+        {
+            x = Input.GetAxis("Mouse X") * mouseSensitivity;
+            y = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        }
 
         XRotation -= y;
         XRotation = Mathf.Clamp(XRotation, -90.0f, 90.0f);

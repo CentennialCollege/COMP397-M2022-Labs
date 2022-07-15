@@ -6,6 +6,13 @@ public class PlayerBehaviour : MonoBehaviour
 {
     public CharacterController controller;
 
+    [Header("OnScreen Controls")] 
+    public GameObject onScreenControls;
+    public GameObject miniMap;
+
+    [Header("Input")]
+    public Joystick leftJoystick;
+
     [Header("Movement")] 
     public float maxSpeed = 10.0f;
     public float gravity = -30.0f;
@@ -22,6 +29,8 @@ public class PlayerBehaviour : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+
+        onScreenControls.SetActive((Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer));
     }
 
     // Update is called once per frame
@@ -34,8 +43,8 @@ public class PlayerBehaviour : MonoBehaviour
             velocity.y = -2.0f;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float x = Input.GetAxis("Horizontal") + leftJoystick.Horizontal;
+        float z = Input.GetAxis("Vertical") + leftJoystick.Vertical;
 
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * maxSpeed * Time.deltaTime);
@@ -49,11 +58,31 @@ public class PlayerBehaviour : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            // toggle minimap
+            miniMap.SetActive(!miniMap.activeInHierarchy);
+        }
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(groundCheck.position, groundRadius);
+    }
+
+    public void OnAButtonPressed()
+    {
+        if (isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
+        }
+    }
+
+    public void OnYButtonPressed()
+    {
+        // toggle minimap
+        miniMap.SetActive(!miniMap.activeInHierarchy);
     }
 }
