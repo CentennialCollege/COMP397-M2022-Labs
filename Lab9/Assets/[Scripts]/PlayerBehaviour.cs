@@ -59,11 +59,24 @@ public class PlayerBehaviour : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
 
+
+        // Keybinds
         if (Input.GetKeyDown(KeyCode.M))
         {
             // toggle minimap
             miniMap.SetActive(!miniMap.activeInHierarchy);
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            GameSaveManager.Instance().SaveGame(transform);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            GameSaveManager.Instance().LoadGame(transform);
+        }
+
     }
 
     void OnDrawGizmos()
