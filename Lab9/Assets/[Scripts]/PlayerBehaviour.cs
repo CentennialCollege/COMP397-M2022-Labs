@@ -98,4 +98,14 @@ public class PlayerBehaviour : MonoBehaviour
         // toggle minimap
         miniMap.SetActive(!miniMap.activeInHierarchy);
     }
+
+    public void onSaveButtonPressed()
+    {
+        GameSaveManager.Instance().SaveGame(transform);
+    }
+
+    public void onLoadButtonPressed()
+    {
+        GameSaveManager.Instance().LoadGame(transform);
+    }
 }

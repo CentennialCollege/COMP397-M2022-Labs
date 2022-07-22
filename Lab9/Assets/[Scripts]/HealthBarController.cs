@@ -30,7 +30,7 @@ public class HealthBarController : MonoBehaviour
             OnValueChanged();
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.P)) // P for Poke!
         {
             // Kill Code for testing
             TakeDamage(10);
